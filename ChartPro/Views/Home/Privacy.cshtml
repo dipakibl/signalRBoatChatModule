@@ -2,5 +2,22 @@
     ViewData["Title"] = "Privacy Policy";
 }
 <h1>@ViewData["Title"]</h1>
+<!DOCTYPE html>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Get IP Address</title>
+    <link href="Files/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <h1><strong>Your IP Address : </strong></h1>
+            <br />
+            <h1><strong>Method 1 : </strong><asp:Label ID="lblIPAddress" CssClass="label label-primary" runat="server" Text="Label"></asp:Label></h1>
+            <br />
+            <h1><strong>Method 2 : </strong><asp:Label ID="lblIPAdd" CssClass="label label-info" runat="server" Text="Label"></asp:Label></h1>
+        </div>
+    </form>
+</body>
+</html>

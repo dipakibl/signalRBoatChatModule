@@ -29,8 +29,8 @@ namespace ChartPro
         {
             services.AddDbContext<ChatDbContext>(options =>
             options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
-            
 
+            services.AddSession();
             services.AddControllersWithViews();
             services.AddSignalR();
         }
@@ -50,9 +50,8 @@ namespace ChartPro
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
-
 
             app.UseAuthorization();
 
@@ -63,6 +62,7 @@ namespace ChartPro
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 //endpoints.MapHub<MessagesHub>("/MessagesHub");
             });
+           
             app.UseSignalR(routes =>
             {
                 routes.MapHub<Chat>("/chat");

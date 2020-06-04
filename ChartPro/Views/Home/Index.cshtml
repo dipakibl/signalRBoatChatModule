@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http;
+@{
     Layout = null;
     ViewData["Title"] = "Home page";
 }
@@ -7,15 +8,11 @@
 <head>
     <add name="Access-Control-Allow-Origin" value="*" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="csrf-token" content="gfiE5MVEhKrBzgs7R3WnS1jdNCPeLer3KFZYNEUq">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Chat with Libby Kathi</title>
     <!-- Favicon -->
     <link rel="apple-touch-icon" href="https://chat-girls.pro/app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="https://chat-girls.pro/app-assets/images/ico/favicon.ico">
 
-    <!-- Bundle Styles -->
     <link rel="stylesheet" href="https://chat-girls.pro/app-assets/chat/vendor/bundle.css">
 
     <link rel="stylesheet" href="https://chat-girls.pro/app-assets/chat/vendor/enjoyhint/enjoyhint.css">
@@ -25,64 +22,10 @@
 
     <link rel="stylesheet" href="https://chat-girls.pro/app-assets/plugins/lightbox-master/dist/ekko-lightbox.css">
 
-
 </head>
 <body>
-
     <!-- page loading -->
     <div class="page-loading"></div>
-    <!-- ./ page loading -->
-    <!-- disconnected modal -->
-    <div class="modal fade" id="disconnected" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="row mb-5">
-                        <div class="col-md-6 offset-3">
-                            <img src="https://chat-girls.pro/app-assets/chat/dist/media/svg/undraw_warning_cyit.svg" class="img-fluid" alt="image">
-                        </div>
-                    </div>
-                    <p class="lead text-center">Application disconnected</p>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-success btn-lg">Reconnect</button>
-                    <a href="login.html" class="btn btn-link">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ./ disconnected modal -->
-    <!-- new group modal -->
-    <div class="modal fade" id="emailTour" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i data-feather="users" class="mr-2"></i> Confirm Your Identity
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i class="ti-close"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="group_name" class="col-form-label">Your Email</label>
-                            <div class="input-group">
-                                <input class="form-control" id="contact_email" name="email" placeholder="name@example.com">
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="contact_email_submit" class="btn btn-primary">Continue &amp; Chat</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ./ new group modal -->
-    <!-- new group modal -->
     <div class="modal fade" id="nameTour" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
             <div class="modal-content">
@@ -111,304 +54,6 @@
             </div>
         </div>
     </div>
-    <!-- ./ new group modal -->
-    <!-- setting modal -->
-    <div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i data-feather="settings" class="mr-2"></i> Settings
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i class="ti-close"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#account" role="tab" aria-controls="account"
-                               aria-selected="true">Account</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#notification" role="tab"
-                               aria-controls="notification" aria-selected="false">Notification</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-                               aria-selected="false">Security</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane show active" id="account" role="tabpanel">
-                            <div class="form-item custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" checked id="customSwitch1">
-                                <label class="custom-control-label" for="customSwitch1">Allow connected contacts</label>
-                            </div>
-                            <div class="form-item custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" checked id="customSwitch2">
-                                <label class="custom-control-label" for="customSwitch2">Confirm message requests</label>
-                            </div>
-                            <div class="form-item custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" checked id="customSwitch3">
-                                <label class="custom-control-label" for="customSwitch3">Profile privacy</label>
-                            </div>
-                            <div class="form-item custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch4">
-                                <label class="custom-control-label" for="customSwitch4">Developer mode options</label>
-                            </div>
-                            <div class="form-item custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" checked id="customSwitch5">
-                                <label class="custom-control-label" for="customSwitch5">
-                                    Two-step security
-                                    verification
-                                </label>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="notification" role="tabpanel">
-                            <div class="form-item custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" checked id="customSwitch6">
-                                <label class="custom-control-label" for="customSwitch6">Allow mobile notifications</label>
-                            </div>
-                            <div class="form-item custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch7">
-                                <label class="custom-control-label" for="customSwitch7">
-                                    Notifications from your
-                                    friends
-                                </label>
-                            </div>
-                            <div class="form-item custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch8">
-                                <label class="custom-control-label" for="customSwitch8">Send notifications by email</label>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="contact" role="tabpanel">
-                            <div class="form-item custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch9">
-                                <label class="custom-control-label" for="customSwitch9">
-                                    Suggest changing passwords every
-                                    month.
-                                </label>
-                            </div>
-                            <div class="form-item custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" checked id="customSwitch10">
-                                <label class="custom-control-label" for="customSwitch10">
-                                    Let me know about suspicious
-                                    entries to your account
-                                </label>
-                            </div>
-                            <div class="form-item">
-                                <p>
-                                    <a class="btn btn-light" data-toggle="collapse" href="#collapseExample" role="button"
-                                       aria-expanded="false"
-                                       aria-controls="collapseExample">
-                                        <i data-feather="plus" class="mr-2"></i> Security Questions
-                                    </a>
-                                </p>
-                                <div class="collapse" id="collapseExample">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Question 1">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Answer 1">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Question 2">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Answer 2">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ./ setting modal -->
-    <!-- edit profile modal -->
-    <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i data-feather="edit-2" class="mr-2"></i> Edit Profile
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i class="ti-close"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#personal" role="tab"
-                               aria-controls="personal" aria-selected="true">Personal</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#about" role="tab" aria-controls="about"
-                               aria-selected="false">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#social-links" role="tab"
-                               aria-controls="social-links" aria-selected="false">Social Links</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane show active" id="personal" role="tabpanel">
-                            <form>
-                                <div class="form-group">
-                                    <label for="fullname" class="col-form-label">Fullname</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="fullname">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">
-                                                <i data-feather="user"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="city" class="col-form-label">City</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="city" placeholder="Ex: Columbia">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">
-                                                <i data-feather="target"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone" class="col-form-label">Phone</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="phone" placeholder="(555) 555 55 55">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">
-                                                <i data-feather="phone"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="website" class="col-form-label">Website</label>
-                                    <input type="text" class="form-control" id="website" placeholder="https://">
-                                </div>
-                            </form>
-                        </div>
-                        <div class="tab-pane" id="about" role="tabpanel">
-                            <form>
-                                <div class="form-group">
-                                    <label for="about-text" class="col-form-label">
-                                        Write a few words that describe
-                                        you
-                                    </label>
-                                    <textarea class="form-control" id="about-text"></textarea>
-                                </div>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" checked id="customCheck1">
-                                    <label class="custom-control-label" for="customCheck1">View profile</label>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="tab-pane" id="social-links" role="tabpanel">
-                            <form>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Username">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-facebook">
-                                                <i class="ti-facebook"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Username">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-twitter">
-                                                <i class="ti-twitter"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Username">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-instagram">
-                                                <i class="ti-instagram"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Username">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-linkedin">
-                                                <i class="ti-linkedin"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Username">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-dribbble">
-                                                <i class="ti-dribbble"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Username">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-youtube">
-                                                <i class="ti-youtube"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Username">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-google">
-                                                <i class="ti-google"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Username">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-whatsapp">
-                                                <i class="fa fa-whatsapp"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- ./ edit profile modal -->
-    <!-- layout -->
     <div class="layout">
 
         <!-- navigation -->
@@ -432,30 +77,9 @@
                                     M306,497.25c-22.338,0-43.911-2.601-64.643-7.019l-90.041,54.123l1.205-88.701C83.5,414.133,38.25,345.513,38.25,267.75
                                     c0-126.741,119.875-229.5,267.75-229.5c147.875,0,267.75,102.759,267.75,229.5S453.875,497.25,306,497.25z" />
 
-
-
-
-
-
-
                                     </g>
                                 </g>
                             </g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
                         </svg>
                         </a>
                     </li>
@@ -466,8 +90,6 @@
                             <i data-feather="message-circle"></i>
                         </a>
                     </li>
-
-
                     <li>
                         <a href="#" class="dark-light-switcher" data-toggle="tooltip" title="Dark mode"
                            data-placement="right">
@@ -480,10 +102,8 @@
         <!-- ./ navigation -->
         <!-- content -->
         <div class="content">
-
             <!-- sidebar group -->
             <div class="sidebar-group">
-
                 <!-- Chats sidebar -->
                 <div id="chats" class="sidebar active">
                     <header>
@@ -548,36 +168,23 @@
                                     <a href="#" data-navigation-target="contact-information"
                                        class="dropdown-item">Profile</a>
                                 </div>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="#" data-navigation-target="contact-information"
+                                       class="dropdown-item">LogOut</a>
+                                </div>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="chat-body" id="chatbox">
-
                     <div class="messages" id="messages">
-                        @*<div class="message-item  message-outgoingd365-263efc731-c7317-d365f-263efc7317">
-                                <div class="message-avatar">
-                                    <figure class="avatar">
-                                        <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b5ea76ada823f6110bd6b75fc8782a92874e6825_full.jpg" class="rounded-circle">
-                                    </figure>
-                                    <div>
-                                        <h5>Libby Kathi</h5>
-                                        <div class="time" style="display:none" id="timeoutgoingd365-263efc731-c7317-d365f-263efc7317"> 9:21 AM </div>
-                                    </div>
-                                </div>
-                                <div class="message-content" style="display:block" id="outgoingd365-263efc731-c7317-d365f-263efc7317">
-                                    <span class="text-typing">Typing...</span>
-                                </div>
-
-                            </div>*@
-
 
                     </div>
                 </div>
 
                 <div class="chat-footer">
                     <form id="message_form">
-                        <input type="text" class="form-control" name="description" id="message" placeholder="Write a message." autocomplete="off">
+                        <input type="hidden" id="UserName" value=@Context.Session.GetString("UserName") class="text">                      <input type="text" class="form-control" name="description" id="message" placeholder="Write a message." autocomplete="off">
                         <div class="form-buttons">
                             <input type="file" name="attachment" id="attachment" style="display:none;">
                             <button id="add_attchment" class="btn btn-light" data-toggle="tooltip" title="Add files" type="button">
@@ -627,99 +234,69 @@
                                         <p class="text-muted">Ahmedabad, Gujarat</p>
                                         <h6>Age</h6>
                                         <p class="text-muted">32</p>
-
-
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-        <!-- ./ content -->
-
     </div>
-    <!-- ./ layout -->
-
-
-    <div id="name" style="display:none;">You</div>
-    <div id="email" style="display:none;">user@nomail.com</div>
-    <div id="your_name" style="display:none;">You</div>
-    <div id="your_image" style="display:none;">https://chat-girls.pro/app-assets/chat/images/nophoto.png</div>
-    <div id="agent_name" style="display:none;">Libby Kathi</div>
-    <div id="agent_image" style="display:none;">
-        <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b5ea76ada823f6110bd6b75fc8782a92874e6825_full.jpg" />
-    </div>
-    <div id="base_url" style="display:none;">https://chat-girls.pro</div>
-    <div id="current_url" style="display:none;">https://chat-girls.pro/chat/232</div>
-    <div id="in_progress" style="display:none;"></div>
-
-    <!-- Bundle -->
     <script src="https://chat-girls.pro/app-assets/chat/vendor/bundle.js"></script>
-
-    <script src="https://chat-girls.pro/app-assets/chat/vendor/enjoyhint/enjoyhint.min.js"></script>
-
-    <!-- App scripts -->
     <script src="https://chat-girls.pro/app-assets/chat/dist/js/app.min.js"></script>
-
-    <!-- Examples -->
-
-    <script src="https://chat-girls.pro/app-assets/plugins/lightbox-master/dist/ekko-lightbox.min.js"></script>
-
-    <script src="https://chat-girls.pro/app-assets/chat/js/realtime-chat.js"></script>
-    @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
     <script src="lib/signalr/signalr.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let userName = $("#UserName").val();
+             $.ajax({
+                type: 'Get',
+                url: '/Home/TrancateHistoryActiveMessage',
+                dataType: 'json',
+                success: function (result) {
+                }
+            });
+            $.ajax({
+                type: 'Get',
+                url: '/Home/GetHistoryMessages',
+                dataType: 'json',
+                success: function (result) {
+                    $.each(result, function (key, value) {
+                        if (value.userName == "You") {
+                            $('#messages').append('<div class="message-item  outgoing-message  "><div class="message-avatar"> <figure class="avatar"><a href="https://chat-girls.pro/app-assets/chat/images/nophoto.png" data-toggle="lightbox"><img src="https://chat-girls.pro/app-assets/chat/images/nophoto.png" class="rounded-circle" alt="You@elseLibby Kathi"></a></figure><div><h5>You</h5><div class="time">' + formatJSONDate(value.messageDate) + '</div></div></div><div class="message-content">' + value.message + '</div></div>');
+                            scrollfunction();
+                        } else if (value.userName == userName) {
+                            $('#messages').append('<div id="lead_form" data-sid="outgoing267b-2326e4521-4521f-267bc-2326e4521f"><div id="body-outgoing267b-2326e4521-4521f-267bc-2326e4521f" style="display:none;">undefined</div><div class="message-item  message-outgoing267b-2326e4521-4521f-267bc-2326e4521f"><div class="message-avatar"><figure class="avatar"><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b5ea76ada823f6110bd6b75fc8782a92874e6825_full.jpg" class="rounded-circle"></figure><div><h5>Libby Kathi</h5><div class="time" style="display:block" id="timeoutgoing267b-2326e4521-4521f-267bc-2326e4521f"> ' + formatJSONDate(value.messageDate) + ' </div></div></div><div class="message-content" style="display:block" id="outgoing267b-2326e4521-4521f-267bc-2326e4521f"><span class="text-typing">' + value.message + '</span></div></div></div>');
+                            scrollfunction();
+                        }
+                    });
 
+                }
+            });
+           
+        })
+    </script>
     <script>
-        window.onbeforeunload = function (e) {
-            var message = "Your confirmation message goes here.",
-                e = e || window.event;
-            // For IE and Firefox
-
-            if (e) {    
-                e.returnValue = message;
-                $.ajax({
-                    type: 'Get',
-                    url: '/Home/SetMsgStatus',
-                    dataType: 'json',
-                    success: function (result) {
-                    }
-                });
-
-            }
-            else {
-                alert("close tab");
-            }
-
-            // For Safari
-            return message;
-        };
-
         const connection = new signalR.HubConnectionBuilder()
             .withUrl("/chat")
             .build();
 
         connection.start().catch(err => console.error(err.toString()));
 
-        connection.on('Send', (message) => {
-            appendLine(message);
+        connection.on('Send', (message, UserName) => {
+            appendLine(message, UserName);
         });
 
         document.getElementById('message_form').addEventListener('submit', event => {
             let message = $('#message').val();
-
+            let = UserName = $('#UserName').val();
             $('#message').val('');
 
-            connection.invoke('Send', message);
+            connection.invoke('Send', message, UserName);
             event.preventDefault();
         });
 
         function appendLine(message, color) {
-
             let msgElement = document.createElement('em');
             msgElement.innerText = ` ${message}`;
 
@@ -730,7 +307,7 @@
             var times = today.getTime;
             var divid = today.getSeconds() + Math.floor((Math.random() * 100000) + 1);
             //$('#messages').append(span);
-            $('#messages').append('<div class="message-item  outgoing-message  "><div class="message-avatar"> <figure class="avatar"><a href="https://chat-girls.pro/app-assets/chat/images/nophoto.png" data-toggle="lightbox"><img src="https://chat-girls.pro/app-assets/chat/images/nophoto.png" class="rounded-circle" alt="You@elseLibby Kathi"></a></figure><div><h5> You </h5><div class="time">' + formatAMPM(new Date) + '</div></div></div><div class="message-content">' + li.textContent + '</div></div>');
+            $('#messages').append('<div class="message-item  outgoing-message  "><div class="message-avatar"> <figure class="avatar"><a href="https://chat-girls.pro/app-assets/chat/images/nophoto.png" data-toggle="lightbox"><img src="https://chat-girls.pro/app-assets/chat/images/nophoto.png" class="rounded-circle" alt="You@elseLibby Kathi"></a></figure><div><h5>You</h5><div class="time">' + formatAMPM(new Date) + '</div></div></div><div class="message-content">' + li.textContent + '</div></div>');
             setTimeout(function myfunction() {
                 $("#messages").append('<div class="message-item  message-outgoingd365-263efc731-c7317-d365f-263efc7317" id="' + divid + '"><div class="message-avatar"><figure class="avatar"><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b5ea76ada823f6110bd6b75fc8782a92874e6825_full.jpg" class="rounded-circle"></figure><div><h5>Libby Kathi</h5><div class="time" style="display:none" id="timeoutgoingd365-263efc731-c7317-d365f-263efc7317">' + formatAMPM(new Date) + ' </div></div></div><div class="message-content" style="display:block" id="outgoingd365-263efc731-c7317-d365f-263efc7317"><span class="text-typing">Typing...</span></div></div>')
                 scrollfunction();
@@ -746,8 +323,12 @@
                 dataType: 'json',
                 success: function (result) {
                     setTimeout(function myfunction() {
-                        $("#" + divid + "").hide();
-                        $('#messages').append('<div id="lead_form" data-sid="outgoing267b-2326e4521-4521f-267bc-2326e4521f"><div id="body-outgoing267b-2326e4521-4521f-267bc-2326e4521f" style="display:none;">undefined</div><div class="message-item  message-outgoing267b-2326e4521-4521f-267bc-2326e4521f"><div class="message-avatar"><figure class="avatar"><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b5ea76ada823f6110bd6b75fc8782a92874e6825_full.jpg" class="rounded-circle"></figure><div><h5>Libby Kathi</h5><div class="time" style="display:block" id="timeoutgoing267b-2326e4521-4521f-267bc-2326e4521f"> ' + formatAMPM(new Date) + ' </div></div></div><div class="message-content" style="display:block" id="outgoing267b-2326e4521-4521f-267bc-2326e4521f"><span class="text-typing">' + result + '</span></div></div></div>');
+                        if (result == "Typing....") {
+                            $("#" + divid + "").show();
+                        } else {
+                            $("#" + divid + "").hide();
+                            $('#messages').append('<div id="lead_form" data-sid="outgoing267b-2326e4521-4521f-267bc-2326e4521f"><div id="body-outgoing267b-2326e4521-4521f-267bc-2326e4521f" style="display:none;">undefined</div><div class="message-item  message-outgoing267b-2326e4521-4521f-267bc-2326e4521f"><div class="message-avatar"><figure class="avatar"><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b5ea76ada823f6110bd6b75fc8782a92874e6825_full.jpg" class="rounded-circle"></figure><div><h5>Libby Kathi</h5><div class="time" style="display:block" id="timeoutgoing267b-2326e4521-4521f-267bc-2326e4521f"> ' + formatAMPM(new Date) + ' </div></div></div><div class="message-content" style="display:block" id="outgoing267b-2326e4521-4521f-267bc-2326e4521f"><span class="text-typing">' + result + '</span></div></div></div>');
+                        }
                         if (result == null) {
                             $("#" + divid + "").show();
                         }
@@ -770,23 +351,19 @@
             var objDiv = document.getElementById("chatbox");
             objDiv.scrollTop = objDiv.scrollHeight;
         }
-
-
-
+        function formatJSONDate(jsonDate) {
+            var date = new Date(jsonDate);
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            var strTime = hours + ':' + minutes + ' ' + ampm;
+            return strTime;
+        }
     </script>
 
     @*<div class="message-item  message-outgoingd365-263efc731-c7317-d365f-263efc7317"><div class="message-avatar"><figure class="avatar"><img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b5ea76ada823f6110bd6b75fc8782a92874e6825_full.jpg" class="rounded-circle"></figure><div><h5>Libby Kathi</h5><div class="time" style="display:none" id="timeoutgoingd365-263efc731-c7317-d365f-263efc7317"> 9:21 AM </div></div></div><div class="message-content" style="display:block" id="outgoingd365-263efc731-c7317-d365f-263efc7317"><span class="text-typing">Typing...</span></div></div>*@
-
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-

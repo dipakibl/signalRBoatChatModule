@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ChartPro.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Net;
 
 namespace ChartPro.Controllers
 {
@@ -13,7 +18,7 @@ namespace ChartPro.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ChatDbContext _context;
-        public HomeController(ILogger<HomeController> logger,ChatDbContext context)
+        public HomeController(ILogger<HomeController> logger, ChatDbContext context)
         {
             _context = context;
             _logger = logger;
@@ -21,69 +26,99 @@ namespace ChartPro.Controllers
 
         public IActionResult Index()
         {
+            //Get IP Address
+            IPHostEntry heserver = Dns.GetHostEntry(Dns.GetHostName());
+            var ipAddress = heserver.AddressList.ToList().Where(p => p.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).FirstOrDefault().ToString();
+            //Set Session in IP Address
+            HttpContext.Session.SetString("UserName", ipAddress);
+
+            //Add All Messages In Active Chat
+            List<Active_Messages> active_message = _context.Active_Messages.Where(a => a.UserName == ipAddress).ToList();
+            if (active_message.Count == 0)
+            {
+                List<DefaultMessage> defaultMessages = _context.DefaultMessages.ToList();
+                foreach (var item in defaultMessages)
+                {
+                    Active_Messages active_ = new Active_Messages();
+                    active_.UserName = ipAddress;
+                    active_.Messages = item.Message;
+                    active_.IsActive = true;
+                    active_.AddDate = DateTime.Now;
+                    _context.Active_Messages.Add(active_);
+                    _context.SaveChanges();
+                }
+            }
             return View();
         }
-      
-        public JsonResult DefaultMsg()
-
+        public JsonResult GetHistoryMessages()
         {
+            string username = HttpContext.Session.GetString("UserName");
+            List<MessageHistory> messages = _context.MessageHistories.Where(a => a.UserId == username).ToList();
+            return Json(messages);
+        }
+        public JsonResult DefaultMsg()
+        {
+            string username = HttpContext.Session.GetString("UserName");
             var data = "";
-         List<DefaultMessage> messages = _context.DefaultMessages.ToList();
-            if (messages.Count!=0)
+            List<Active_Messages> messages = _context.Active_Messages.ToList();
+            if (messages.Count != 0)
             {
-                List<DefaultMessage> allmessage = messages.Where(a => a.IsActive == false).ToList();
+
+                List<Active_Messages> allmessage = messages.Where(a => a.UserName == username && a.IsActive == true).ToList();
                 if (allmessage.Count != 0)
                 {
-                  var firstData =  allmessage.First();
+                    var firstData = allmessage.First();
                     if (firstData != null)
                     {
-                        firstData.IsActive = true;
-                        data = firstData.Message;
-                        _context.DefaultMessages.Update(firstData);
+                        firstData.IsActive = false;
+                        data = firstData.Messages;
+                        _context.Active_Messages.Update(firstData);
+                        MessageHistory messageHistory = new MessageHistory
+                        {
+                            Message = data,
+                            UserName = username,
+                            MessageDate = DateTime.Now,
+                            UserId = username
+                        };
+                        _context.MessageHistories.Add(messageHistory);
                         _context.SaveChanges();
                         var lastdata = allmessage[allmessage.Count - 1];
-                        //if (lastdata == firstData)
-                        //{
-                        //    //foreach (var item in messages)
-                        //    //{
-                        //    //     item.IsActive = false;
-                        //    //    _context.DefaultMessages.Update(item);
-                        //    //    _context.SaveChanges();
-                        //    //}
-                        //    data = "Typing....";
-                        //}
                     }
                 }
                 else
                 {
-                    //foreach (var item in messages)
-                    //{
-                    //     item.IsActive = false;
-                    //    _context.DefaultMessages.Update(item);
-                    //    _context.SaveChanges();
-                    //}
                     data = "Typing....";
                 }
             }
             return Json(data);
         }
-
-        public JsonResult SetMsgStatus()
+      
+        public JsonResult TrancateHistoryActiveMessage()
         {
-            var data = "";
-            List<DefaultMessage> messages = _context.DefaultMessages.ToList();
-           
-                    foreach (var item in messages)
-                    {
-                        item.IsActive = false;
-                        _context.DefaultMessages.Update(item);
-                        _context.SaveChanges();
-                    }
-                    data = "Done....";
-              
-            return Json(data);
-        }
+            var history = _context.MessageHistories.ToList();
+            var active = _context.Active_Messages.ToList();
+            DateTime nowdate = DateTime.Now;
+            if (history.Count != 0)
+            {
+                var messageHistory = history.First();
+                if (messageHistory.MessageDate.Date != nowdate.Date)
+                {
+                    _context.Database.ExecuteSqlCommand("TRUNCATE TABLE [MessageHistories]");
+                }
+            }
+            if (active.Count != 0)
+            {
+                var active_Messages = active.First();
+                if (active_Messages.AddDate.Date != nowdate.Date)
+                {
+                    _context.Database.ExecuteSqlCommand("TRUNCATE TABLE [Active_Messages]");
+                }
+            }
 
+
+
+            return Json("True");
+        }
         public IActionResult Privacy()
         {
             return View();

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\IBL\\ChartPro\\ChartPro\\ChartPro.csproj": {}
+    "E:\\GitHubDemo\\SignalR Default Chat Module\\signalRBoatChatModule\\ChartPro\\ChartPro.csproj": {}
   },
   "projects": {
-    "D:\\IBL\\ChartPro\\ChartPro\\ChartPro.csproj": {
+    "E:\\GitHubDemo\\SignalR Default Chat Module\\signalRBoatChatModule\\ChartPro\\ChartPro.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\IBL\\ChartPro\\ChartPro\\ChartPro.csproj",
+        "projectUniqueName": "E:\\GitHubDemo\\SignalR Default Chat Module\\signalRBoatChatModule\\ChartPro\\ChartPro.csproj",
         "projectName": "ChartPro",
-        "projectPath": "D:\\IBL\\ChartPro\\ChartPro\\ChartPro.csproj",
+        "projectPath": "E:\\GitHubDemo\\SignalR Default Chat Module\\signalRBoatChatModule\\ChartPro\\ChartPro.csproj",
         "packagesPath": "C:\\Users\\Borse Nitin\\.nuget\\packages\\",
-        "outputPath": "D:\\IBL\\ChartPro\\ChartPro\\obj\\",
+        "outputPath": "E:\\GitHubDemo\\SignalR Default Chat Module\\signalRBoatChatModule\\ChartPro\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -25,7 +25,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "http://packagesource": {},
+          "C:\\Users\\Borse Nitin\\OneDrive\\Documents\\Visual Studio 2019": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -69,6 +69,14 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[3.1.4, )"
+            },
+            "Microsoft.Extensions.Logging.Debug": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.0.0, )"
             }
           },
           "imports": [

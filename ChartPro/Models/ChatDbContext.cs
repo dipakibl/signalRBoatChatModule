@@ -13,5 +13,7 @@ namespace ChartPro.Models
 
         }
         public DbSet<DefaultMessage> DefaultMessages { get; set; }
+        public DbSet<Active_Messages> Active_Messages { get; set; }
+        public DbSet<MessageHistory> MessageHistories { get; set; }
     }
 }
