@@ -249,13 +249,6 @@
     <script type="text/javascript">
         $(document).ready(function () {
             let userName = $("#UserName").val();
-             $.ajax({
-                type: 'Get',
-                url: '/Home/TrancateHistoryActiveMessage',
-                dataType: 'json',
-                success: function (result) {
-                }
-            });
             $.ajax({
                 type: 'Get',
                 url: '/Home/GetHistoryMessages',

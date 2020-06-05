@@ -32,6 +32,8 @@ namespace ChartPro.Controllers
             //Set Session in IP Address
             HttpContext.Session.SetString("UserName", ipAddress);
 
+            // Truncate Table in Next Day
+            TrancateHistoryActiveMessage();
             //Add All Messages In Active Chat
             List<Active_Messages> active_message = _context.Active_Messages.Where(a => a.UserName == ipAddress).ToList();
             if (active_message.Count == 0)
@@ -63,7 +65,6 @@ namespace ChartPro.Controllers
             List<Active_Messages> messages = _context.Active_Messages.ToList();
             if (messages.Count != 0)
             {
-
                 List<Active_Messages> allmessage = messages.Where(a => a.UserName == username && a.IsActive == true).ToList();
                 if (allmessage.Count != 0)
                 {
@@ -80,6 +81,7 @@ namespace ChartPro.Controllers
                             MessageDate = DateTime.Now,
                             UserId = username
                         };
+
                         _context.MessageHistories.Add(messageHistory);
                         _context.SaveChanges();
                         var lastdata = allmessage[allmessage.Count - 1];
@@ -92,8 +94,8 @@ namespace ChartPro.Controllers
             }
             return Json(data);
         }
-      
-        public JsonResult TrancateHistoryActiveMessage()
+
+        public void TrancateHistoryActiveMessage()
         {
             var history = _context.MessageHistories.ToList();
             var active = _context.Active_Messages.ToList();
@@ -103,7 +105,11 @@ namespace ChartPro.Controllers
                 var messageHistory = history.First();
                 if (messageHistory.MessageDate.Date != nowdate.Date)
                 {
-                    _context.Database.ExecuteSqlCommand("TRUNCATE TABLE [MessageHistories]");
+                    var itemsToDelete = _context.Set<MessageHistory>();
+                    _context.MessageHistories.RemoveRange(itemsToDelete);
+                    _context.SaveChanges();
+                    //_context.Database.ExecuteSqlCommand("TRUNCATE TABLE [MessageHistories]");
+                    //_context.SaveChanges();
                 }
             }
             if (active.Count != 0)
@@ -111,13 +117,13 @@ namespace ChartPro.Controllers
                 var active_Messages = active.First();
                 if (active_Messages.AddDate.Date != nowdate.Date)
                 {
-                    _context.Database.ExecuteSqlCommand("TRUNCATE TABLE [Active_Messages]");
+                    var itemsToDelete = _context.Set<Active_Messages>();
+                    _context.Active_Messages.RemoveRange(itemsToDelete);
+                    _context.SaveChanges();
+                    //_context.Database.ExecuteSqlCommand("TRUNCATE TABLE [Active_Messages]");
+                    //_context.SaveChanges();
                 }
             }
-
-
-
-            return Json("True");
         }
         public IActionResult Privacy()
         {
